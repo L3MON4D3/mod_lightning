@@ -10,7 +10,8 @@ import net.minecraftforge.registries.ForgeRegistries;
 
 public class ModItems {
     public static final DeferredRegister<Item> ITEMS =
-        new DeferredRegister<>(ForgeRegistries.ITEMS, LightningMod.MODID);
+        DeferredRegister.create(ForgeRegistries.ITEMS, LightningMod.MODID);
+    public static final String LIGHTNING_ARROW_NAME = "lightning_arrow";
     public static final RegistryObject<LightningArrowItem> LIGHTNING_ARROW =
         ITEMS.register("lightning_arrow",
             () -> new LightningArrowItem(

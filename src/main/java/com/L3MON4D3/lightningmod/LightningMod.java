@@ -20,7 +20,6 @@ public class LightningMod {
      */
     public LightningMod() {
         LOGGER.debug("Hello from LightningMod");
-
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.ITEMS.register(modEventBus);
