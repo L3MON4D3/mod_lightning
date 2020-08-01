@@ -1,12 +1,11 @@
 package com.L3MON4D3.lightningmod.entity;
 
-import com.L3MON4D3.lightningmod.init.ModItems;
-
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.entity.projectile.ArrowEntity;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -26,10 +25,10 @@ public class LightningArrowEntity extends ArrowEntity {
         super(type, worldIn);
     }
 
-    //@Override
-    //protected ItemStack getArrowStack() {
-    //    return new ItemStack(ModItems.LIGHTNING_ARROW.get());
-    //}
+    @Override
+    protected ItemStack getArrowStack() {
+        return new ItemStack(Items.AIR, 0);
+    }
 
     /**
      * Strike position of res with Lightning.
@@ -38,9 +37,11 @@ public class LightningArrowEntity extends ArrowEntity {
     private void strike(RayTraceResult res) {
         if (!lightningFired) {
             Vec3d hitVec = res.getHitVec();
-            world.addLightningBolt(new LightningBoltEntity(world, hitVec.x, hitVec.y, hitVec.z, false));
+            world.addLightningBolt(new LightningBoltEntity(
+                world, hitVec.x, hitVec.y, hitVec.z, false));
         }
         lightningFired = true;
+        remove();
     }
 
     public void onHit(RayTraceResult res) {
