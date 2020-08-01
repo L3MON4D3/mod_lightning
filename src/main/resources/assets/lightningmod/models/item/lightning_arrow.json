@@ -1,0 +1,7 @@
+{
+    "parent": "item/generated",
+	"textures": {
+		"layer0": "lightningmod:item/tipped_arrow_base",
+		"layer1": "lightningmod:item/lightning_arrow_head"
+	}
+}
