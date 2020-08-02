@@ -18,6 +18,5 @@ public class ModEntityTypes {
             EntityType.Builder
                 .<LightningArrowEntity>create(LightningArrowEntity::new, EntityClassification.MISC)
                 .size(.5f, .5f)
-                .build(new ResourceLocation(
-                    LightningMod.MODID, ModItems.LIGHTNING_ARROW_NAME).toString()));
+                .build(LightningMod.MODID + ModItems.LIGHTNING_ARROW_NAME));
 }

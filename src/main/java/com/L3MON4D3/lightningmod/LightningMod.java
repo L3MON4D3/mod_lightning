@@ -4,6 +4,7 @@ import net.minecraftforge.eventbus.api.IEventBus;
 import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
+import com.L3MON4D3.lightningmod.init.ModEntityTypes;
 import com.L3MON4D3.lightningmod.init.ModItems;
 
 import org.apache.logging.log4j.LogManager;
@@ -23,5 +24,6 @@ public class LightningMod {
         final IEventBus modEventBus = FMLJavaModLoadingContext.get().getModEventBus();
 
         ModItems.ITEMS.register(modEventBus);
+        ModEntityTypes.ENTITY_TYPES.register(modEventBus);
     }
 }
