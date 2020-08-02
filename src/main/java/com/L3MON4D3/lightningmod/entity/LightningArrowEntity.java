@@ -9,6 +9,7 @@ import net.minecraft.entity.projectile.AbstractArrowEntity;
 import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.IPacket;
+import net.minecraft.particles.ParticleTypes;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -17,6 +18,7 @@ import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.fml.network.NetworkHooks;
 
 public class LightningArrowEntity extends AbstractArrowEntity {
+    private boolean duringTick = false;
     private boolean lightningFired = false;
 
     public LightningArrowEntity(World worldIn, LivingEntity shooter) {
@@ -42,17 +44,38 @@ public class LightningArrowEntity extends AbstractArrowEntity {
      **/
     private void strike(RayTraceResult res) {
         if (!world.isRemote)
-            if (!lightningFired) {
+            if (!lightningFired && !isInWater()) {
                 Vec3d hitVec = res.getHitVec();
                 ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(
                     world, hitVec.x, hitVec.y, hitVec.z, false));
             }
+        remove();
     }
 
     @Override
     public void onHit(RayTraceResult res) {
         super.onHit(res);
         strike(res);
+    }
+
+    //Hackish way to turn off Crit-particles, may intefere with damage calc.
+    @Override
+    public void tick() {
+        duringTick = true;
+        super.tick();
+        duringTick = false;
+
+        if (world.isRemote) {
+            Vec3d motion = getMotion();
+            world.addParticle(ParticleTypes.POOF,
+                getPosX(), getPosY(), getPosZ(),
+                motion.x, motion.y, motion.z);
+        }
+    }
+
+    @Override
+    public boolean getIsCritical() {
+        return !duringTick && super.getIsCritical();
     }
 
     @Override
@@ -62,7 +85,7 @@ public class LightningArrowEntity extends AbstractArrowEntity {
     }
 
     @Override
-   public IPacket<?> createSpawnPacket() {
-       return NetworkHooks.getEntitySpawningPacket(this);
-   }
+    public IPacket<?> createSpawnPacket() {
+        return NetworkHooks.getEntitySpawningPacket(this);
+    }
 }
