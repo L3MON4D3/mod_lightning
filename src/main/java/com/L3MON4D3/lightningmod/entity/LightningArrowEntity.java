@@ -10,6 +10,7 @@ import net.minecraft.item.ItemStack;
 import net.minecraft.item.Items;
 import net.minecraft.network.IPacket;
 import net.minecraft.particles.ParticleTypes;
+import net.minecraft.util.math.BlockPos;
 import net.minecraft.util.math.EntityRayTraceResult;
 import net.minecraft.util.math.RayTraceResult;
 import net.minecraft.util.math.Vec3d;
@@ -43,13 +44,27 @@ public class LightningArrowEntity extends AbstractArrowEntity {
      * @param res RayTraceResult that describes position of hit, obtain via on(Entity)Hit.
      **/
     private void strike(RayTraceResult res) {
-        if (!world.isRemote)
+        if (!world.isRemote) {
             if (!lightningFired && !isInWater()) {
-                Vec3d hitVec = res.getHitVec();
+                BlockPos pos = getPosition();
+                double x = pos.getX();
+                double y = pos.getY();
+                double z = pos.getZ();
+
+                while (pos.getY() > 255) {
+                    if (!world.isAirBlock(pos.up()))
+                        if (pos.getY() - y < 8) {
+                            y = pos.getY();
+                            break;
+                        } else {
+                           return;
+                        }
+                }
                 ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(
-                    world, hitVec.x, hitVec.y, hitVec.z, false));
+                    world, x, y, z, false));
+                remove();
             }
-        remove();
+        }
     }
 
     @Override
