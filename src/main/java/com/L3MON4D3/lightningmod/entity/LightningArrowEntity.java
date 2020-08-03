@@ -36,7 +36,7 @@ public class LightningArrowEntity extends AbstractArrowEntity {
 
     @Override
     protected ItemStack getArrowStack() {
-        return new ItemStack(Items.AIR, 0);
+        return lightningFired ? new ItemStack(Items.AIR, 0) : new ItemStack(ModItems.LIGHTNING_ARROW.get());
     }
 
     /**
@@ -49,6 +49,7 @@ public class LightningArrowEntity extends AbstractArrowEntity {
             ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(
                 world, vec.x, vec.y, vec.z, false));
             remove();
+            lightningFired = true;
         }
     }
 
