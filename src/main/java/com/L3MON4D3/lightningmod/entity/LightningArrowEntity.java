@@ -1,6 +1,7 @@
 package com.L3MON4D3.lightningmod.entity;
 
 import com.L3MON4D3.lightningmod.init.ModEntityTypes;
+import com.L3MON4D3.lightningmod.init.ModItems;
 
 import net.minecraft.entity.EntityType;
 import net.minecraft.entity.LivingEntity;
@@ -36,7 +37,7 @@ public class LightningArrowEntity extends AbstractArrowEntity {
 
     @Override
     protected ItemStack getArrowStack() {
-        return new ItemStack(Items.AIR, 0);
+        return lightningFired ? new ItemStack(Items.AIR, 0) : new ItemStack(ModItems.LIGHTNING_ARROW.get());
     }
 
     /**
@@ -49,6 +50,7 @@ public class LightningArrowEntity extends AbstractArrowEntity {
             ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(
                 world, vec.x, vec.y, vec.z, false));
             remove();
+            lightningFired = true;
         }
     }
 
