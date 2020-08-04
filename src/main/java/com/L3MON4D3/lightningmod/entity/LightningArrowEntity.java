@@ -46,7 +46,7 @@ public class LightningArrowEntity extends AbstractArrowEntity {
         if (!world.isRemote)
             if (!lightningFired && !isInWater()) {
                 Vec3d hitVec = res.getHitVec();
-                ((ServerWorld) world).addLightningBolt(new LightningBoltEntity(
+                ((ServerWorld) world).addLightningBolt(new ArtificialLightningBoltEntity(
                     world, hitVec.x, hitVec.y, hitVec.z, false));
             }
         remove();
