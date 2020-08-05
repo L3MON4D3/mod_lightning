@@ -10,6 +10,7 @@ import net.minecraft.entity.player.PlayerEntity;
 import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
+import net.minecraft.item.ItemStack;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
@@ -46,7 +47,6 @@ public class LightningConductorContainer extends Container {
 		for (int column = 0; column < 9; ++column) {
 			this.addSlot(new Slot(playerInventory, column, playerInventoryStartX + (column * slotSizePlus2), playerHotbarY));
 		}
-
     }
 
     /**
@@ -68,5 +68,34 @@ public class LightningConductorContainer extends Container {
     public boolean canInteractWith(PlayerEntity playerIn) {
         return isWithinUsableDistance(canInteractWithCallable, playerIn,
             ModBlocks.LIGHTNING_CONDUCTOR.get());
+	}
+
+	@Override
+	public ItemStack transferStackInSlot(final PlayerEntity player, final int index) {
+		ItemStack returnStack = ItemStack.EMPTY;
+		final Slot slot = this.inventorySlots.get(index);
+		if (slot != null && slot.getHasStack()) {
+			final ItemStack slotStack = slot.getStack();
+			returnStack = slotStack.copy();
+
+			final int containerSlots = this.inventorySlots.size() - player.inventory.mainInventory.size();
+			if (index < containerSlots) {
+				if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), true)) {
+					return ItemStack.EMPTY;
+				}
+			} else if (!mergeItemStack(slotStack, 0, containerSlots, false)) {
+				return ItemStack.EMPTY;
+			}
+			if (slotStack.getCount() == 0) {
+				slot.putStack(ItemStack.EMPTY);
+			} else {
+				slot.onSlotChanged();
+			}
+			if (slotStack.getCount() == returnStack.getCount()) {
+				return ItemStack.EMPTY;
+			}
+			slot.onTake(player, slotStack);
+		}
+		return returnStack;
 	}
 }

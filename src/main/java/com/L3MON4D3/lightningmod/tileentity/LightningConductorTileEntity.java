@@ -25,6 +25,12 @@ public class LightningConductorTileEntity extends TileEntity implements INamedCo
             return stack.getItem() == Items.GLASS_BOTTLE;
 		}
 
+        @Override
+        protected int getStackLimit(int slot, ItemStack stack) {
+            //Only one Slot, can only add GlassBottles.
+            return 1;
+        }
+
 		@Override
 		protected void onContentsChanged(final int slot) {
 			super.onContentsChanged(slot);
@@ -34,7 +40,6 @@ public class LightningConductorTileEntity extends TileEntity implements INamedCo
 			markDirty();
 		}
 	};
-
 
     public LightningConductorTileEntity() {
         super(ModTileEntities.LIGHTNING_CONDUCTOR.get());
@@ -49,5 +54,4 @@ public class LightningConductorTileEntity extends TileEntity implements INamedCo
 	public ITextComponent getDisplayName() {
 		return new TranslationTextComponent(ModBlocks.LIGHTNING_CONDUCTOR.get().getTranslationKey());
 	}
-
 }
