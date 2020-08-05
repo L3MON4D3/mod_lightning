@@ -5,8 +5,10 @@ import net.minecraftforge.fml.common.Mod;
 import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
 
 import com.L3MON4D3.lightningmod.init.ModBlocks;
+import com.L3MON4D3.lightningmod.init.ModContainerTypes;
 import com.L3MON4D3.lightningmod.init.ModEntityTypes;
 import com.L3MON4D3.lightningmod.init.ModItems;
+import com.L3MON4D3.lightningmod.init.ModTileEntities;
 
 import org.apache.logging.log4j.LogManager;
 import org.apache.logging.log4j.Logger;
@@ -27,5 +29,7 @@ public class LightningMod {
         ModItems.ITEMS.register(modEventBus);
         ModBlocks.BLOCKS.register(modEventBus);
         ModEntityTypes.ENTITY_TYPES.register(modEventBus);
+        ModContainerTypes.CONTAINER_TYPES.register(modEventBus);
+        ModTileEntities.TILE_ENTITY_TYPES.register(modEventBus);
     }
 }
