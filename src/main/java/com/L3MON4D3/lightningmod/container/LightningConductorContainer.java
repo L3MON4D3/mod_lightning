@@ -11,6 +11,7 @@ import net.minecraft.entity.player.PlayerInventory;
 import net.minecraft.inventory.container.Container;
 import net.minecraft.inventory.container.Slot;
 import net.minecraft.item.ItemStack;
+import net.minecraft.item.Items;
 import net.minecraft.network.PacketBuffer;
 import net.minecraft.tileentity.TileEntity;
 import net.minecraft.util.IWorldPosCallable;
@@ -83,9 +84,17 @@ public class LightningConductorContainer extends Container {
 				if (!mergeItemStack(slotStack, containerSlots, this.inventorySlots.size(), true)) {
 					return ItemStack.EMPTY;
 				}
-			} else if (!mergeItemStack(slotStack, 0, containerSlots, false)) {
-				return ItemStack.EMPTY;
-			}
+			} else {
+                if (slotStack.getItem() == Items.GLASS_BOTTLE) {
+                    Slot lccSlot = inventorySlots.get(0);
+                    if (lccSlot.getStack().getCount() == 0) {
+                        //reduces slotStack by one.
+                        lccSlot.putStack(slotStack.split(1));
+                        slot.putStack(slotStack);
+                    }
+                }
+                return ItemStack.EMPTY;
+            }
 			if (slotStack.getCount() == 0) {
 				slot.putStack(ItemStack.EMPTY);
 			} else {
