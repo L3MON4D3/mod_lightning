@@ -5,9 +5,6 @@ import com.L3MON4D3.lightningmod.ModUtil;
 import com.L3MON4D3.lightningmod.entity.ArtificialLightningBoltEntity;
 import com.L3MON4D3.lightningmod.init.ModBlocks;
 
-import org.apache.logging.log4j.LogManager;
-import org.apache.logging.log4j.Logger;
-
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.math.BlockPos;
@@ -18,8 +15,6 @@ import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
 
 @EventBusSubscriber(modid = LightningMod.MODID)
 public class ServerModEventSubscriber {
-    private static final Logger LOGGER = LogManager.getLogger(LightningMod.MODID);
-
     /**
      * Redirect lightning if a LightningConductorBlock is near.
      * @param event Event.
@@ -32,14 +27,14 @@ public class ServerModEventSubscriber {
             World w = en.world;
             LightningBoltEntity lb = (LightningBoltEntity) en;
             BlockPos pos = lb.getPosition();
-            LOGGER.debug(pos);
         
             BlockPos bp = ModUtil.getOneBlockHighestZ(
                 pos, 10, ModBlocks.LIGHTNING_CONDUCTOR.get(), w);
-            LOGGER.debug(bp);
             if (bp != null) {
+                event.setCanceled(true);
                 //hit middle of Block.
-                lb.setPosition(bp.getX()+.5, bp.getY()+.5, bp.getZ()+.5);
+                ((ServerWorld) w).addLightningBolt(
+                    new ArtificialLightningBoltEntity(w, bp.getX()+.5, bp.getY()+.5, bp.getZ()+.5, true));
             }
         }
     }
