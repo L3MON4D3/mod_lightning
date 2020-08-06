@@ -17,4 +17,9 @@ public class ModItems {
         ITEMS.register("lightning_arrow",
             () -> new LightningArrowItem(
                 new Item.Properties().group(ModItemGroups.MOD_ITEM_GROUP)));
+
+    public static final RegistryObject<Item> LIGHTNING_BOTTLE =
+        ITEMS.register("lightning_bottle",
+            () -> new Item(
+                new Item.Properties().group(ModItemGroups.MOD_ITEM_GROUP)));
 }

@@ -3,12 +3,14 @@ package com.L3MON4D3.lightningmod.server;
 import com.L3MON4D3.lightningmod.LightningMod;
 import com.L3MON4D3.lightningmod.ModUtil;
 import com.L3MON4D3.lightningmod.entity.ArtificialLightningBoltEntity;
+import com.L3MON4D3.lightningmod.tileentity.LightningConductorTileEntity;
 import com.L3MON4D3.lightningmod.init.ModBlocks;
 
 import net.minecraft.entity.Entity;
 import net.minecraft.entity.effect.LightningBoltEntity;
 import net.minecraft.util.math.BlockPos;
 import net.minecraft.world.World;
+import net.minecraft.world.server.ServerWorld;
 import net.minecraftforge.event.entity.EntityJoinWorldEvent;
 import net.minecraftforge.eventbus.api.SubscribeEvent;
 import net.minecraftforge.fml.common.Mod.EventBusSubscriber;
@@ -35,6 +37,7 @@ public class ServerModEventSubscriber {
                 //hit middle of Block.
                 ((ServerWorld) w).addLightningBolt(
                     new ArtificialLightningBoltEntity(w, bp.getX()+.5, bp.getY()+.5, bp.getZ()+.5, true));
+                ((LightningConductorTileEntity) w.getTileEntity(bp)).charge();
             }
         }
     }

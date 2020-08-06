@@ -1,5 +1,6 @@
 {
     "itemGroup.lightningmod": "LightningMod",
     "item.lightningmod.lightning_arrow": "Lightning Arrow",
+    "item.lightningmod.lightning_bottle": "Bottled Lightning",
     "block.lightningmod.lightning_conductor": "Lightning Conductor"
 }
