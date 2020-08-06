@@ -1,0 +1,21 @@
+{
+	"type": "minecraft:crafting_shaped",
+	"pattern": [
+		"###",
+		"#o#",
+		"###"
+	],
+	"key": {
+		"#": {
+			"item": "minecraft:arrow"
+		},
+        "o" : {
+            "item": "lightningmod:lightning_bottle"
+        }
+	},
+	"result": {
+		"item": "lightningmod:lightning_arrow",
+        "count": 8
+	}
+}
+
